@@ -5,6 +5,7 @@ class Sound {
         this.context = new AudioContext();
         this.o = this.context.createOscillator();
         this.g = this.context.createGain();
+        this.duration = 1000;
     }
     loadNotes(notes) {
         this.notes = notes;
@@ -18,16 +19,17 @@ class Sound {
         this.o.start(0);
 
         // Series of timeouts until notes end
+        /*
         let nextNote = () => {
             this.currentNote += 1;
             if (this.currentNote < this.notes.length) {
                 this.o.frequency.value = noteValues[this.notes[this.currentNote]];
-                setTimeout(nextNote, 300);
+                setTimeout(nextNote, this.duration);
             } else {
                 this.stop();
             }
         };
-        setTimeout(nextNote, 300);
+        setTimeout(nextNote, this.duration); */
     }
     stop() {
         this.g.gain.exponentialRampToValueAtTime(
