@@ -8,41 +8,44 @@
 </head>
 <body>
     <h1>Simple Sound</h1>
-    <p>Edit <b>noteString</b> in the source of this page <b>or</b> a random <b>noteString</b> has been generated for you.</p>
-    <p><b>Click this page</b> to play the sound</p>
-    <p>Playing now: <span class="now-playing"></span></p>
+    <p>Three rows of keys are mapped to notes</p>
+    <p><b>Q to U</b> is A3 to G3</p>
+    <p><b>A to J</b> is A4 to G4</p>
+    <p><b>Z to M</b> is A5 to G5</p>
+    <p>Press a key to hear the note. You can press multiple keys at the same time!</p>
     <script>
         function main() {
-            let keys = Object.keys(noteValues);
-            let notes = [];
-            for (let i = 0; i < 5; i++) {
-                let r = Math.floor(Math.random() * keys.length);
-                notes.push(keys[r]);
-            }
-            let noteString = notes.join("/");
-
-            let songs = {
-                "ZeldasLullaby": "B4/D4/A4/B4/D4/A4",
-                "EponasSong": "D4/B4/A4/D4/B4/A4",
-                "SariasSong": "F4/A4/B4/F4/A4/B4",
-                "SunsSong": "A4/F4/D4/A4/F4/D4",
-                "SongOfTime": "A4/D3/F4/A4/D3/F4",
-                "SongOfStorms": "D3/F4/D4/D3/F4/D4",
-                "MinuetOfForest": "D3/D4/B4/A4/B4/A4",
-                "BoleroOfFire": "F4/D3/F4/D3/A4/F4/A4/F4",
-                "SerenadeOfWater": "D3/F4/A4/A4/B4",
-                "RequiemOfSpirit": "D3/F4/D3/A4/F4/D3",
-                "NocturneOfShadow": "B4/A4/A4/D3/B4/A4/F4",
-                "PreludeOfLight": "D4/A4/D4/A4/B4/D4"
-            };
-
-            noteString = songs["BoleroOfFire"];
-
-            document.querySelector(".now-playing").innerHTML = noteString.replace(/\//g, ", ");
-
             window.addEventListener("click", (e) => {
-                let s = new Sound(noteString);
-                s.play();
+
+            });
+
+            let three = "qwertyu";
+            let four  = "asdfghj";
+            let five  = "zxcvbnm";
+
+            let map = "ABCDEFG";
+
+            let sounds = {};
+
+            window.addEventListener("keydown", (e) => {
+                if (three.indexOf(e.key) !== -1 && !(e.key in sounds)) {
+                    sounds[e.key] = new Sound(map[three.indexOf(e.key)] + "3");
+                    sounds[e.key].play();
+                }
+                if (four.indexOf(e.key) !== -1 && !(e.key in sounds)) {
+                    sounds[e.key] = new Sound(map[four.indexOf(e.key)] + "4");
+                    sounds[e.key].play();
+                }
+                if (five.indexOf(e.key) !== -1 && !(e.key in sounds)) {
+                    sounds[e.key] = new Sound(map[five.indexOf(e.key)] + "5");
+                    sounds[e.key].play();
+                }
+            });
+            window.addEventListener("keyup", (e) => {
+                if (e.key in sounds) {
+                    sounds[e.key].stop();
+                    delete sounds[e.key];
+                }
             });
         }
         window.onload = main;
