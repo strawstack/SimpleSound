@@ -14,37 +14,73 @@
     <p><b>Z to M</b> is A5 to G5</p>
     <p>Press a key to hear the note. You can press multiple keys at the same time!</p>
     <script>
-        function main() {
-            window.addEventListener("click", (e) => {
 
-            });
+        function createSound() {
+            let lst = [];
+            for (let i = 0; i < 5; i++) {
+                lst.push(new Sound());
+            }
+            return lst;
+        }
+
+        function createAudio() {
+            let lst = [];
+            for (let i = 0; i < 5; i++) {
+                lst.push(new AudioContext());
+            }
+            return lst;
+        }
+
+        function main() {
+            let soundPool = undefined;
+            let audioPool = undefined;
 
             let three = "qwertyu";
             let four  = "asdfghj";
             let five  = "zxcvbnm";
-
             let map = "ABCDEFG";
-
             let sounds = {};
 
             window.addEventListener("keydown", (e) => {
+
+                if (soundPool === undefined) {
+                    soundPool = createSound();
+                    audioPool = createAudio();
+                }
+
                 if (three.indexOf(e.key) !== -1 && !(e.key in sounds)) {
-                    sounds[e.key] = new Sound(map[three.indexOf(e.key)] + "3");
-                    sounds[e.key].play();
+                    let sound = soundPool.pop();
+                    let audio = audioPool.pop();
+                    if (sound === undefined) return;
+                    sound.note = map[three.indexOf(e.key)] + "3";
+                    sounds[e.key] = sound;
+                    sounds[e.key].play(audio);
                 }
                 if (four.indexOf(e.key) !== -1 && !(e.key in sounds)) {
-                    sounds[e.key] = new Sound(map[four.indexOf(e.key)] + "4");
-                    sounds[e.key].play();
+                    let sound = soundPool.pop();
+                    let audio = audioPool.pop();
+                    if (sound === undefined) return;
+                    sound.note = map[four.indexOf(e.key)] + "4";
+                    sounds[e.key] = sound;
+                    sounds[e.key].play(audio);
                 }
                 if (five.indexOf(e.key) !== -1 && !(e.key in sounds)) {
-                    sounds[e.key] = new Sound(map[five.indexOf(e.key)] + "5");
-                    sounds[e.key].play();
+                    let sound = soundPool.pop();
+                    let audio = audioPool.pop();
+                    if (sound === undefined) return;
+                    sound.note = map[five.indexOf(e.key)] + "5";
+                    sounds[e.key] = sound;
+                    sounds[e.key].play(audio);
                 }
             });
             window.addEventListener("keyup", (e) => {
                 if (e.key in sounds) {
-                    sounds[e.key].stop();
+                    let s = sounds[e.key];
+                    let a = sounds[e.key].context;
                     delete sounds[e.key];
+                    s.stop();
+                    soundPool.unshift(s);
+                    audioPool.unshift(a);
                 }
             });
         }

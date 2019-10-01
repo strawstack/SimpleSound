@@ -1,35 +1,18 @@
 class Sound {
-    constructor(notes) {
-        this.notes = notes.split("/");
-        this.currentNote = 0;
-        this.context = new AudioContext();
-        this.o = this.context.createOscillator();
+    constructor() {
+        this.g;
+        this.note;
+        this.context;
+    }
+    play(context) {
+        this.context = context;
+        let o = this.context.createOscillator();
         this.g = this.context.createGain();
-        this.duration = 1000;
-    }
-    loadNotes(notes) {
-        this.notes = notes;
-    }
-    play() {
-        if (this.notes.length === 0) return;
-        this.o.type = "sine";
-        this.o.frequency.value = noteValues[this.notes[this.currentNote]];
-        this.o.connect(this.g);
+        o.connect(this.g);
         this.g.connect(this.context.destination);
-        this.o.start(0);
-
-        // Series of timeouts until notes end
-        /*
-        let nextNote = () => {
-            this.currentNote += 1;
-            if (this.currentNote < this.notes.length) {
-                this.o.frequency.value = noteValues[this.notes[this.currentNote]];
-                setTimeout(nextNote, this.duration);
-            } else {
-                this.stop();
-            }
-        };
-        setTimeout(nextNote, this.duration); */
+        o.type = "sine";
+        o.frequency.value = noteValues[this.note];
+        o.start(0);
     }
     stop() {
         this.g.gain.exponentialRampToValueAtTime(
