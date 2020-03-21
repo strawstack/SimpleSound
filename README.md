@@ -1,6 +1,6 @@
 # SimpleSound
 
-Notes are mapped to keys using HTML5 and JS. Pressing multiple keys plays multiple notes!
+Notes are mapped to keys using HTML5 and JS. Play multiple notes at once by pressing several keys!
 
 # Live Demo
 
