@@ -4,4 +4,4 @@ Notes are mapped to keys using HTML5 and JS. Play multiple notes at once by pres
 
 # Live Demo
 
-[Try it live here!](https://strawstack.github.io/SimpleSound/)
+[View Live Demo](https://strawstack.github.io/SimpleSound/)
